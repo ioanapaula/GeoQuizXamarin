@@ -12,8 +12,8 @@ namespace XamarinGeoQuiz.Droid
     {
         private Button _trueButton;
         private Button _falseButton;
-        private Button _nextButton;
-        private Button _prevButton;
+        private ImageButton _nextButton;
+        private ImageButton _prevButton;
         private TextView _questionTextView;
         private Question[] questionBank = new Question[]
         {
@@ -39,10 +39,10 @@ namespace XamarinGeoQuiz.Droid
             _trueButton.Click += TrueButtonClicked;
             _falseButton.Click += FalseButtonClicked;
 
-            _nextButton = FindViewById<Button>(Resource.Id.next_button);
+            _nextButton = FindViewById<ImageButton>(Resource.Id.next_button);
             _nextButton.Click += NextButtonClicked;
 
-            _prevButton = FindViewById<Button>(Resource.Id.prev_button);
+            _prevButton = FindViewById<ImageButton>(Resource.Id.prev_button);
             _prevButton.Click += PrevButtonClicked;
 
             _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
