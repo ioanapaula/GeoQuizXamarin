@@ -31,12 +31,18 @@ namespace XamarinGeoQuiz.Droid
 
         private void TrueButtonClicked(object sender, EventArgs e)
         {
-            Toast.MakeText(ApplicationContext, Resource.String.correct_toast, ToastLength.Short).Show();
+            var toast = Toast.MakeText(ApplicationContext, Resource.String.correct_toast, ToastLength.Short);
+           
+            toast.SetGravity(Android.Views.GravityFlags.Top, 0, 0);
+            toast.Show();
         }
 
         private void FalseButtonClicked(object sender, EventArgs e)
         {
-            Toast.MakeText(ApplicationContext, Resource.String.incorrect_toast, ToastLength.Short).Show();
+            var toast = Toast.MakeText(ApplicationContext, Resource.String.incorrect_toast, ToastLength.Short);
+
+            toast.SetGravity(Android.Views.GravityFlags.Top, 0, 0);
+            toast.Show();
         }
     }
 }
