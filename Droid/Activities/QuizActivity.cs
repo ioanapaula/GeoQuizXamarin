@@ -1,9 +1,9 @@
 ﻿using System;
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
+using XamarinGeoQuiz.Droid.Data;
 
 namespace XamarinGeoQuiz.Droid
 {
@@ -12,37 +12,77 @@ namespace XamarinGeoQuiz.Droid
     {
         private Button _trueButton;
         private Button _falseButton;
+        private Button _nextButton;
+        private TextView _questionTextView;
+        private Question[] questionBank = new Question[]
+        {
+            new Question(Resource.String.question_australia, true),
+            new Question(Resource.String.question_oceans, true),
+            new Question(Resource.String.question_mideast, false),
+            new Question(Resource.String.question_africa, false),
+            new Question(Resource.String.question_americas, false),
+            new Question(Resource.String.question_asia, true)
+        };
+
+        private int currentIndex = 0;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            // Get our buttons from the layout resource,
             _trueButton = FindViewById<Button>(Resource.Id.true_button);
             _falseButton = FindViewById<Button>(Resource.Id.false_button);
 
-            // Attach events to these buttons
             _trueButton.Click += TrueButtonClicked;
             _falseButton.Click += FalseButtonClicked;
+
+            _nextButton = FindViewById<Button>(Resource.Id.next_button);
+
+            _nextButton.Click += NextButtonClicked;
+
+            _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
+            UpdateQuestion();
         }
 
         private void TrueButtonClicked(object sender, EventArgs e)
         {
-            var toast = Toast.MakeText(ApplicationContext, Resource.String.correct_toast, ToastLength.Short);
-           
-            toast.SetGravity(Android.Views.GravityFlags.Top, 0, 0);
-            toast.Show();
+            CheckAnswer(true);
         }
 
         private void FalseButtonClicked(object sender, EventArgs e)
         {
-            var toast = Toast.MakeText(ApplicationContext, Resource.String.incorrect_toast, ToastLength.Short);
+            CheckAnswer(false);
+        }
 
-            toast.SetGravity(Android.Views.GravityFlags.Top, 0, 0);
-            toast.Show();
+        private void NextButtonClicked(object sender, EventArgs e)
+        {
+            currentIndex = (currentIndex + 1) % questionBank.Length;
+            UpdateQuestion();
+        }
+
+        private void UpdateQuestion()
+        {
+            int question = questionBank[currentIndex].GetTextResId();
+            _questionTextView.SetText(question);
+        }
+
+        private void CheckAnswer(bool userPressedTrue)
+        {
+            bool answerIsTrue = questionBank[currentIndex].IsAnswerTrue();
+            int messageResId = 0;
+
+            if (userPressedTrue == answerIsTrue)
+            {
+                messageResId = Resource.String.correct_toast;
+            }
+            else
+            {
+                messageResId = Resource.String.incorrect_toast;
+            }
+
+            Toast.MakeText(this, messageResId, ToastLength.Short).Show();
         }
     }
 }
