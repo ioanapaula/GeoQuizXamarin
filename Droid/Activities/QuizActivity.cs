@@ -20,7 +20,7 @@ namespace XamarinGeoQuiz.Droid
             new Question(Resource.String.question_oceans, true),
             new Question(Resource.String.question_mideast, false),
             new Question(Resource.String.question_africa, false),
-            new Question(Resource.String.question_americas, false),
+            new Question(Resource.String.question_americas, true),
             new Question(Resource.String.question_asia, true)
         };
 
@@ -43,6 +43,7 @@ namespace XamarinGeoQuiz.Droid
             _nextButton.Click += NextButtonClicked;
 
             _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
+            _questionTextView.Click += QuestionViewClicked;
             UpdateQuestion();
         }
 
@@ -57,6 +58,12 @@ namespace XamarinGeoQuiz.Droid
         }
 
         private void NextButtonClicked(object sender, EventArgs e)
+        {
+            currentIndex = (currentIndex + 1) % questionBank.Length;
+            UpdateQuestion();
+        }
+
+        private void QuestionViewClicked(object sender, EventArgs e)
         {
             currentIndex = (currentIndex + 1) % questionBank.Length;
             UpdateQuestion();
