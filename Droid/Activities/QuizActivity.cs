@@ -11,8 +11,8 @@ namespace XamarinGeoQuiz.Droid
     [Activity(Label = "XamarinGeoQuiz", MainLauncher = true, Icon = "@mipmap/icon", Theme = "@style/AppTheme.NoActionBar")]
     public class QuizActivity : AppCompatActivity
     {
-        private const string TAG = "QuizActivity";
-        private const string KEY_INDEX = "index";
+        private const string Tag = "QuizActivity";
+        private const string KeyIndex = "index";
         private Button _trueButton;
         private Button _falseButton;
         private ImageButton _nextButton;
@@ -34,13 +34,13 @@ namespace XamarinGeoQuiz.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Log.Debug(TAG, "onCreate(Bundle) called");
+            Log.Debug(Tag, "onCreate(Bundle) called");
 
             SetContentView(Resource.Layout.Main);
 
             if (savedInstanceState != null)
             {
-                currentIndex = savedInstanceState.GetInt(KEY_INDEX);
+                currentIndex = savedInstanceState.GetInt(KeyIndex);
             }
 
             _trueButton = FindViewById<Button>(Resource.Id.true_button);
@@ -63,38 +63,38 @@ namespace XamarinGeoQuiz.Droid
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            Log.Info(TAG, "onSavedInstanceState");
-            outState.PutInt(KEY_INDEX, currentIndex);
+            Log.Info(Tag, "onSavedInstanceState");
+            outState.PutInt(KeyIndex, currentIndex);
         }
 
         protected override void OnStart()
         {
             base.OnStart();
-            Log.Debug(TAG, "onStart() called");
+            Log.Debug(Tag, "onStart() called");
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            Log.Debug(TAG, "onResume() called");
+            Log.Debug(Tag, "onResume() called");
         }
 
         protected override void OnPause()
         {
             base.OnPause();
-            Log.Debug(TAG, "onPause() called");
+            Log.Debug(Tag, "onPause() called");
         }
 
         protected override void OnStop()
         {
             base.OnStop();
-            Log.Debug(TAG, "onStop() called");
+            Log.Debug(Tag, "onStop() called");
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            Log.Debug(TAG, "onDestroy() called");
+            Log.Debug(Tag, "onDestroy() called");
         }
 
         private void TrueButtonClicked(object sender, EventArgs e)
