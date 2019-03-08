@@ -40,13 +40,13 @@ namespace XamarinGeoQuiz.Droid
             _falseButton.Click += FalseButtonClicked;
 
             _nextButton = FindViewById<ImageButton>(Resource.Id.next_button);
-            _nextButton.Click += NextButtonClicked;
+            _nextButton.Click += GoToNextQuestion;
 
             _prevButton = FindViewById<ImageButton>(Resource.Id.prev_button);
-            _prevButton.Click += PrevButtonClicked;
+            _prevButton.Click += GoToPrevQuestion;
 
             _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
-            _questionTextView.Click += QuestionViewClicked;
+            _questionTextView.Click += GoToNextQuestion;
             UpdateQuestion();
         }
 
@@ -60,13 +60,13 @@ namespace XamarinGeoQuiz.Droid
             CheckAnswer(false);
         }
 
-        private void NextButtonClicked(object sender, EventArgs e)
+        private void GoToNextQuestion(object sender, EventArgs e)
         {
             currentIndex = (currentIndex + 1) % questionBank.Length;
             UpdateQuestion();
         }
 
-        private void PrevButtonClicked(object sender, EventArgs e)
+        private void GoToPrevQuestion(object sender, EventArgs e)
         {
             if (currentIndex == 0)
             {
@@ -80,21 +80,15 @@ namespace XamarinGeoQuiz.Droid
             UpdateQuestion();
         }
 
-        private void QuestionViewClicked(object sender, EventArgs e)
-        {
-            currentIndex = (currentIndex + 1) % questionBank.Length;
-            UpdateQuestion();
-        }
-
         private void UpdateQuestion()
         {
-            int question = questionBank[currentIndex].GetTextResId();
+            int question = questionBank[currentIndex].TextResId;
             _questionTextView.SetText(question);
         }
 
         private void CheckAnswer(bool userPressedTrue)
         {
-            bool answerIsTrue = questionBank[currentIndex].IsAnswerTrue();
+            bool answerIsTrue = questionBank[currentIndex].AnswerTrue;
             int messageResId = 0;
 
             if (userPressedTrue == answerIsTrue)
