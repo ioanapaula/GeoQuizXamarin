@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
@@ -13,11 +15,15 @@ namespace XamarinGeoQuiz.Droid
     {
         private const string Tag = "QuizActivity";
         private const string KeyIndex = "index";
+        private const string KeyArray = "array";
+
         private Button _trueButton;
         private Button _falseButton;
         private ImageButton _nextButton;
         private ImageButton _prevButton;
         private TextView _questionTextView;
+
+        private List<int> answeredQuestions = new List<int>();
         private Question[] questionBank = new Question[]
         {
             new Question(Resource.String.question_australia, true),
@@ -41,22 +47,11 @@ namespace XamarinGeoQuiz.Droid
             if (savedInstanceState != null)
             {
                 currentIndex = savedInstanceState.GetInt(KeyIndex);
+                answeredQuestions = savedInstanceState.GetIntArray(KeyArray).ToList();
             }
 
-            _trueButton = FindViewById<Button>(Resource.Id.true_button);
-            _falseButton = FindViewById<Button>(Resource.Id.false_button);
-
-            _trueButton.Click += TrueButtonClicked;
-            _falseButton.Click += FalseButtonClicked;
-
-            _nextButton = FindViewById<ImageButton>(Resource.Id.next_button);
-            _nextButton.Click += GoToNextQuestion;
-
-            _prevButton = FindViewById<ImageButton>(Resource.Id.prev_button);
-            _prevButton.Click += GoToPrevQuestion;
-
-            _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
-            _questionTextView.Click += GoToNextQuestion;
+            InitFields();
+            SetListeners();
             UpdateQuestion();
         }
 
@@ -65,6 +60,7 @@ namespace XamarinGeoQuiz.Droid
             base.OnSaveInstanceState(outState);
             Log.Info(Tag, "onSavedInstanceState");
             outState.PutInt(KeyIndex, currentIndex);
+            outState.PutIntArray(KeyArray, answeredQuestions.ToArray());
         }
 
         protected override void OnStart()
@@ -122,7 +118,7 @@ namespace XamarinGeoQuiz.Droid
             else
             {
                 currentIndex = (currentIndex - 1) % questionBank.Length;
-            } 
+            }
 
             UpdateQuestion();
         }
@@ -131,6 +127,15 @@ namespace XamarinGeoQuiz.Droid
         {
             int question = questionBank[currentIndex].TextResId;
             _questionTextView.SetText(question);
+
+            if (answeredQuestions.Contains(currentIndex))
+            {
+                SetButtonsVisibility(false);
+            }
+            else
+            {
+                SetButtonsVisibility(true);
+            }
         }
 
         private void CheckAnswer(bool userPressedTrue)
@@ -147,7 +152,43 @@ namespace XamarinGeoQuiz.Droid
                 messageResId = Resource.String.incorrect_toast;
             }
 
+            questionBank[currentIndex].IsAnswered = true;
+            answeredQuestions.Add(currentIndex);
+
+            SetButtonsVisibility(false);
             Toast.MakeText(this, messageResId, ToastLength.Short).Show();
+        }
+
+        private void SetButtonsVisibility(bool buttonsAreVisible)
+        {
+            if (buttonsAreVisible)
+            {
+                _trueButton.Visibility = Android.Views.ViewStates.Visible;
+                _falseButton.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                _trueButton.Visibility = Android.Views.ViewStates.Invisible;
+                _falseButton.Visibility = Android.Views.ViewStates.Invisible;
+            }
+        }
+
+        private void InitFields()
+        {
+            _trueButton = FindViewById<Button>(Resource.Id.true_button);
+            _falseButton = FindViewById<Button>(Resource.Id.false_button);
+            _nextButton = FindViewById<ImageButton>(Resource.Id.next_button);
+            _prevButton = FindViewById<ImageButton>(Resource.Id.prev_button);
+            _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
+        }
+
+        private void SetListeners()
+        {
+            _trueButton.Click += TrueButtonClicked;
+            _falseButton.Click += FalseButtonClicked;
+            _nextButton.Click += GoToNextQuestion;
+            _prevButton.Click += GoToPrevQuestion;
+            _questionTextView.Click += GoToNextQuestion;
         }
     }
 }

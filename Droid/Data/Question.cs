@@ -8,10 +8,13 @@ namespace XamarinGeoQuiz.Droid.Data
         {
             this.TextResId = textResId;
             this.AnswerTrue = answerTrue;
+            this.IsAnswered = false;
         }
 
         public int TextResId { get; set; }
 
         public bool AnswerTrue { get; set; }
+
+        public bool IsAnswered { get; set; }
     }
 }
