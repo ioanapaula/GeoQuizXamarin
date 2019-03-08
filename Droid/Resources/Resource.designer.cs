@@ -1816,46 +1816,52 @@ namespace XamarinGeoQuiz.Droid
 			public const int abc_vector_test = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int notification_action_background = 2130837588;
+			public const int arrow_left = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int notification_bg = 2130837589;
+			public const int arrow_right = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int notification_bg_low = 2130837590;
+			public const int notification_action_background = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int notification_bg_low_normal = 2130837591;
+			public const int notification_bg = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int notification_bg_low_pressed = 2130837592;
+			public const int notification_bg_low = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int notification_bg_normal = 2130837593;
+			public const int notification_bg_low_normal = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int notification_bg_normal_pressed = 2130837594;
+			public const int notification_bg_low_pressed = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int notification_icon_background = 2130837595;
-			
-			// aapt resource value: 0x7f020060
-			public const int notification_template_icon_bg = 2130837600;
-			
-			// aapt resource value: 0x7f020061
-			public const int notification_template_icon_low_bg = 2130837601;
+			public const int notification_bg_normal = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int notification_tile_bg = 2130837596;
+			public const int notification_bg_normal_pressed = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int notify_panel_notification_icon_bg = 2130837597;
+			public const int notification_icon_background = 2130837597;
+			
+			// aapt resource value: 0x7f020062
+			public const int notification_template_icon_bg = 2130837602;
+			
+			// aapt resource value: 0x7f020063
+			public const int notification_template_icon_low_bg = 2130837603;
 			
 			// aapt resource value: 0x7f02005e
-			public const int tooltip_frame_dark = 2130837598;
+			public const int notification_tile_bg = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int tooltip_frame_light = 2130837599;
+			public const int notify_panel_notification_icon_bg = 2130837599;
+			
+			// aapt resource value: 0x7f020060
+			public const int tooltip_frame_dark = 2130837600;
+			
+			// aapt resource value: 0x7f020061
+			public const int tooltip_frame_light = 2130837601;
 			
 			static Drawable()
 			{
@@ -1909,17 +1915,17 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0043
 			public const int action_bar_title = 2131427395;
 			
-			// aapt resource value: 0x7f0b0079
-			public const int action_container = 2131427449;
+			// aapt resource value: 0x7f0b007c
+			public const int action_container = 2131427452;
 			
 			// aapt resource value: 0x7f0b0068
 			public const int action_context_bar = 2131427432;
 			
-			// aapt resource value: 0x7f0b0084
-			public const int action_divider = 2131427460;
+			// aapt resource value: 0x7f0b0087
+			public const int action_divider = 2131427463;
 			
-			// aapt resource value: 0x7f0b007a
-			public const int action_image = 2131427450;
+			// aapt resource value: 0x7f0b007d
+			public const int action_image = 2131427453;
 			
 			// aapt resource value: 0x7f0b0002
 			public const int action_menu_divider = 2131427330;
@@ -1936,11 +1942,11 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0045
 			public const int action_mode_close_button = 2131427397;
 			
-			// aapt resource value: 0x7f0b007b
-			public const int action_text = 2131427451;
+			// aapt resource value: 0x7f0b007e
+			public const int action_text = 2131427454;
 			
-			// aapt resource value: 0x7f0b0085
-			public const int actions = 2131427461;
+			// aapt resource value: 0x7f0b0088
+			public const int actions = 2131427464;
 			
 			// aapt resource value: 0x7f0b0046
 			public const int activity_chooser_view_content = 2131427398;
@@ -1984,8 +1990,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0060
 			public const int checkbox = 2131427424;
 			
-			// aapt resource value: 0x7f0b0083
-			public const int chronometer = 2131427459;
+			// aapt resource value: 0x7f0b0086
+			public const int chronometer = 2131427462;
 			
 			// aapt resource value: 0x7f0b0036
 			public const int clip_horizontal = 2131427382;
@@ -2029,8 +2035,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b005f
 			public const int expanded_menu = 2131427423;
 			
-			// aapt resource value: 0x7f0b0078
-			public const int false_button = 2131427448;
+			// aapt resource value: 0x7f0b0079
+			public const int false_button = 2131427449;
 			
 			// aapt resource value: 0x7f0b0038
 			public const int fill = 2131427384;
@@ -2056,8 +2062,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b004b
 			public const int icon = 2131427403;
 			
-			// aapt resource value: 0x7f0b0086
-			public const int icon_group = 2131427462;
+			// aapt resource value: 0x7f0b0089
+			public const int icon_group = 2131427465;
 			
 			// aapt resource value: 0x7f0b002e
 			public const int ifRoom = 2131427374;
@@ -2065,8 +2071,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0048
 			public const int image = 2131427400;
 			
-			// aapt resource value: 0x7f0b007f
-			public const int info = 2131427455;
+			// aapt resource value: 0x7f0b0082
+			public const int info = 2131427458;
 			
 			// aapt resource value: 0x7f0b0042
 			public const int italic = 2131427394;
@@ -2098,23 +2104,29 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b002f
 			public const int never = 2131427375;
 			
+			// aapt resource value: 0x7f0b007b
+			public const int next_button = 2131427451;
+			
 			// aapt resource value: 0x7f0b0016
 			public const int none = 2131427350;
 			
 			// aapt resource value: 0x7f0b0012
 			public const int normal = 2131427346;
 			
-			// aapt resource value: 0x7f0b0081
-			public const int notification_background = 2131427457;
+			// aapt resource value: 0x7f0b0084
+			public const int notification_background = 2131427460;
 			
-			// aapt resource value: 0x7f0b007d
-			public const int notification_main_column = 2131427453;
+			// aapt resource value: 0x7f0b0080
+			public const int notification_main_column = 2131427456;
 			
-			// aapt resource value: 0x7f0b007c
-			public const int notification_main_column_container = 2131427452;
+			// aapt resource value: 0x7f0b007f
+			public const int notification_main_column_container = 2131427455;
 			
 			// aapt resource value: 0x7f0b004e
 			public const int parentPanel = 2131427406;
+			
+			// aapt resource value: 0x7f0b007a
+			public const int prev_button = 2131427450;
 			
 			// aapt resource value: 0x7f0b0005
 			public const int progress_circular = 2131427333;
@@ -2122,17 +2134,20 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0006
 			public const int progress_horizontal = 2131427334;
 			
+			// aapt resource value: 0x7f0b0077
+			public const int question_text_view = 2131427447;
+			
 			// aapt resource value: 0x7f0b0061
 			public const int radio = 2131427425;
 			
 			// aapt resource value: 0x7f0b003c
 			public const int right = 2131427388;
 			
-			// aapt resource value: 0x7f0b0080
-			public const int right_icon = 2131427456;
+			// aapt resource value: 0x7f0b0083
+			public const int right_icon = 2131427459;
 			
-			// aapt resource value: 0x7f0b007e
-			public const int right_side = 2131427454;
+			// aapt resource value: 0x7f0b0081
+			public const int right_side = 2131427457;
 			
 			// aapt resource value: 0x7f0b001d
 			public const int screen = 2131427357;
@@ -2239,8 +2254,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0052
 			public const int textSpacerNoTitle = 2131427410;
 			
-			// aapt resource value: 0x7f0b0082
-			public const int time = 2131427458;
+			// aapt resource value: 0x7f0b0085
+			public const int time = 2131427461;
 			
 			// aapt resource value: 0x7f0b0010
 			public const int title = 2131427344;
@@ -2257,8 +2272,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f0b0057
 			public const int topPanel = 2131427415;
 			
-			// aapt resource value: 0x7f0b0077
-			public const int true_button = 2131427447;
+			// aapt resource value: 0x7f0b0078
+			public const int true_button = 2131427448;
 			
 			// aapt resource value: 0x7f0b0021
 			public const int uniform = 2131427361;
@@ -2585,17 +2600,38 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f060029
 			public const int app_name = 2131099689;
 			
-			// aapt resource value: 0x7f06002e
-			public const int correct_toast = 2131099694;
+			// aapt resource value: 0x7f060033
+			public const int correct_toast = 2131099699;
 			
-			// aapt resource value: 0x7f06002c
-			public const int false_button = 2131099692;
+			// aapt resource value: 0x7f060031
+			public const int false_button = 2131099697;
+			
+			// aapt resource value: 0x7f060034
+			public const int incorrect_toast = 2131099700;
+			
+			// aapt resource value: 0x7f060035
+			public const int next_button = 2131099701;
+			
+			// aapt resource value: 0x7f060036
+			public const int prev_button = 2131099702;
+			
+			// aapt resource value: 0x7f06002e
+			public const int question_africa = 2131099694;
 			
 			// aapt resource value: 0x7f06002f
-			public const int incorrect_toast = 2131099695;
+			public const int question_americas = 2131099695;
+			
+			// aapt resource value: 0x7f060030
+			public const int question_asia = 2131099696;
 			
 			// aapt resource value: 0x7f06002b
-			public const int question_text = 2131099691;
+			public const int question_australia = 2131099691;
+			
+			// aapt resource value: 0x7f06002d
+			public const int question_mideast = 2131099693;
+			
+			// aapt resource value: 0x7f06002c
+			public const int question_oceans = 2131099692;
 			
 			// aapt resource value: 0x7f06001b
 			public const int search_menu_title = 2131099675;
@@ -2603,8 +2639,8 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f060028
 			public const int status_bar_notification_info_overflow = 2131099688;
 			
-			// aapt resource value: 0x7f06002d
-			public const int true_button = 2131099693;
+			// aapt resource value: 0x7f060032
+			public const int true_button = 2131099698;
 			
 			static String()
 			{
