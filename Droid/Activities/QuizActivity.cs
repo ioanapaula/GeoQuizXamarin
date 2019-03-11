@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
+using Android.Content;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Widget;
+using XamarinGeoQuiz.Droid.Activities;
 using XamarinGeoQuiz.Droid.Data;
 
 namespace XamarinGeoQuiz.Droid
@@ -17,12 +20,15 @@ namespace XamarinGeoQuiz.Droid
         private const string KeyIndex = "index";
         private const string KeyArray = "array";
         private const string KeyScore = "score";
+        private const int RequestCodeCheat = 0;
 
         private Button _trueButton;
         private Button _falseButton;
+        private Button _cheatButton;
+        private TextView _questionTextView;
         private ImageButton _nextButton;
         private ImageButton _prevButton;
-        private TextView _questionTextView;
+        private bool _isCheater;
         private int score = 0;
 
         private List<int> answeredQuestions = new List<int>();
@@ -67,6 +73,26 @@ namespace XamarinGeoQuiz.Droid
             outState.PutInt(KeyScore, score);
         }
 
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode != Result.Ok)
+            {
+                return;
+            }
+
+            if (requestCode == RequestCodeCheat)
+            {
+                if (data == null)
+                {
+                    return;
+                } 
+
+                _isCheater = CheatActivity.WasAnswerShown(data);
+            }
+        }
+
         protected override void OnStart()
         {
             base.OnStart();
@@ -107,14 +133,24 @@ namespace XamarinGeoQuiz.Droid
             CheckAnswer(false);
         }
 
+        private void CheatButtonClicked(object sender, EventArgs e)
+        {
+            var answerIsTrue = questionBank[currentIndex].AnswerTrue;
+            Intent intent = CheatActivity.NewIntent(this, answerIsTrue);
+            StartActivityForResult(intent, RequestCodeCheat);
+        }
+
         private void GoToNextQuestion(object sender, EventArgs e)
         {
             currentIndex = (currentIndex + 1) % questionBank.Length;
+            _isCheater = false;
             UpdateQuestion();
         }
 
         private void GoToPrevQuestion(object sender, EventArgs e)
         {
+            _isCheater = false;
+
             if (currentIndex == 0)
             {
                 currentIndex = questionBank.Length - 1;
@@ -147,14 +183,21 @@ namespace XamarinGeoQuiz.Droid
             bool answerIsTrue = questionBank[currentIndex].AnswerTrue;
             int messageResId = 0;
 
-            if (userPressedTrue == answerIsTrue)
+            if (_isCheater)
             {
-                messageResId = Resource.String.correct_toast;
-                score++;
+                messageResId = Resource.String.judgement_toast;
             }
             else
             {
-                messageResId = Resource.String.incorrect_toast;
+                if (userPressedTrue == answerIsTrue)
+                {
+                    messageResId = Resource.String.correct_toast;
+                    score++;
+                }
+                else
+                {
+                    messageResId = Resource.String.incorrect_toast;
+                }
             }
 
             questionBank[currentIndex].IsAnswered = true;
@@ -188,15 +231,17 @@ namespace XamarinGeoQuiz.Droid
         {
             _trueButton = FindViewById<Button>(Resource.Id.true_button);
             _falseButton = FindViewById<Button>(Resource.Id.false_button);
+            _cheatButton = FindViewById<Button>(Resource.Id.cheat_button);
+            _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
             _nextButton = FindViewById<ImageButton>(Resource.Id.next_button);
             _prevButton = FindViewById<ImageButton>(Resource.Id.prev_button);
-            _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
         }
 
         private void SetListeners()
         {
             _trueButton.Click += TrueButtonClicked;
             _falseButton.Click += FalseButtonClicked;
+            _cheatButton.Click += CheatButtonClicked;
             _nextButton.Click += GoToNextQuestion;
             _prevButton.Click += GoToPrevQuestion;
             _questionTextView.Click += GoToNextQuestion;
