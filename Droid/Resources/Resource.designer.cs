@@ -2606,6 +2606,9 @@ namespace XamarinGeoQuiz.Droid
 			// aapt resource value: 0x7f060031
 			public const int false_button = 2131099697;
 			
+			// aapt resource value: 0x7f060037
+			public const int final_score_msg = 2131099703;
+			
 			// aapt resource value: 0x7f060034
 			public const int incorrect_toast = 2131099700;
 			
