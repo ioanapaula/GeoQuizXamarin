@@ -16,12 +16,14 @@ namespace XamarinGeoQuiz.Droid
         private const string Tag = "QuizActivity";
         private const string KeyIndex = "index";
         private const string KeyArray = "array";
+        private const string KeyScore = "score";
 
         private Button _trueButton;
         private Button _falseButton;
         private ImageButton _nextButton;
         private ImageButton _prevButton;
         private TextView _questionTextView;
+        private int score = 0;
 
         private List<int> answeredQuestions = new List<int>();
         private Question[] questionBank = new Question[]
@@ -48,6 +50,7 @@ namespace XamarinGeoQuiz.Droid
             {
                 currentIndex = savedInstanceState.GetInt(KeyIndex);
                 answeredQuestions = savedInstanceState.GetIntArray(KeyArray).ToList();
+                score = savedInstanceState.GetInt(KeyScore);
             }
 
             InitFields();
@@ -61,6 +64,7 @@ namespace XamarinGeoQuiz.Droid
             Log.Info(Tag, "onSavedInstanceState");
             outState.PutInt(KeyIndex, currentIndex);
             outState.PutIntArray(KeyArray, answeredQuestions.ToArray());
+            outState.PutInt(KeyScore, score);
         }
 
         protected override void OnStart()
@@ -146,6 +150,7 @@ namespace XamarinGeoQuiz.Droid
             if (userPressedTrue == answerIsTrue)
             {
                 messageResId = Resource.String.correct_toast;
+                score++;
             }
             else
             {
@@ -157,6 +162,12 @@ namespace XamarinGeoQuiz.Droid
 
             SetButtonsVisibility(false);
             Toast.MakeText(this, messageResId, ToastLength.Short).Show();
+
+            if (questionBank.Length == answeredQuestions.Count)
+            {
+                string finalScore = string.Format(GetString(Resource.String.final_score_msg), score * 100 / questionBank.Length);
+                Toast.MakeText(this, finalScore, ToastLength.Short).Show();
+            }
         }
 
         private void SetButtonsVisibility(bool buttonsAreVisible)
