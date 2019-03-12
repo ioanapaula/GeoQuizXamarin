@@ -18,7 +18,10 @@ namespace XamarinGeoQuiz.Droid.Activities
     {
         private const string ExtraAnswerIsTrue = "com.companyname.xamaringeoquiz.answer_is_true";
         private const string ExtraAnswerShown = "com.companyname.xamaringeoquiz.answer_shown";
+        private const string KeyAnswer = "answer";
+        private const string KeyCheater = "isCheater";
         private bool _answerIsTrue;
+        private bool _isAnswerShown;
         private Button _showAnswerButton;
         private TextView _answerTextView;
 
@@ -46,21 +49,34 @@ namespace XamarinGeoQuiz.Droid.Activities
             _showAnswerButton = FindViewById<Button>(Resource.Id.show_answer_button);
             _answerTextView = FindViewById<TextView>(Resource.Id.answer_text_view);
 
+            if (savedInstanceState != null)
+            {
+                _answerIsTrue = savedInstanceState.GetBoolean(KeyAnswer);
+                _isAnswerShown = savedInstanceState.GetBoolean(KeyCheater);
+            }
+
+            if (_isAnswerShown)
+            {
+                DisplayAnswer(_answerIsTrue);
+                SetAnswerShownResult(_isAnswerShown);
+            }
+
             _showAnswerButton.Click += AnswerButtonClicked;
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+
+            outState.PutBoolean(KeyAnswer, _answerIsTrue);
+            outState.PutBoolean(KeyCheater, _isAnswerShown);
         }
 
         private void AnswerButtonClicked(object sender, EventArgs e)
         {
-            if (_answerIsTrue)
-            {
-                _answerTextView.SetText(Resource.String.true_button);
-            }
-            else
-            {
-                _answerTextView.SetText(Resource.String.false_button);
-            }
-
-            SetAnswerShownResult(true);
+            _isAnswerShown = true;
+            DisplayAnswer(_answerIsTrue);
+            SetAnswerShownResult(_isAnswerShown);
         }
 
         private void SetAnswerShownResult(bool isAnswerShown)
@@ -68,6 +84,18 @@ namespace XamarinGeoQuiz.Droid.Activities
             Intent data = new Intent();
             data.PutExtra(ExtraAnswerShown, isAnswerShown);
             SetResult(Result.Ok, data);
+        }
+
+        private void DisplayAnswer(bool answer)
+        {
+            if (answer)
+            {
+                _answerTextView.SetText(Resource.String.true_button);
+            }
+            else
+            {
+                _answerTextView.SetText(Resource.String.false_button);
+            }
         }
     }
 }

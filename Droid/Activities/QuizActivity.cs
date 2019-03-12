@@ -20,6 +20,8 @@ namespace XamarinGeoQuiz.Droid
         private const string KeyIndex = "index";
         private const string KeyArray = "array";
         private const string KeyScore = "score";
+        private const string KeyCheater = "cheater";
+        private const string KeyCheatedArray = "cheated";
         private const int RequestCodeCheat = 0;
 
         private Button _trueButton;
@@ -32,6 +34,7 @@ namespace XamarinGeoQuiz.Droid
         private int score = 0;
 
         private List<int> answeredQuestions = new List<int>();
+        private List<int> cheatedQuestions = new List<int>();
         private Question[] questionBank = new Question[]
         {
             new Question(Resource.String.question_australia, true),
@@ -54,9 +57,11 @@ namespace XamarinGeoQuiz.Droid
 
             if (savedInstanceState != null)
             {
-                currentIndex = savedInstanceState.GetInt(KeyIndex);
                 answeredQuestions = savedInstanceState.GetIntArray(KeyArray).ToList();
+                cheatedQuestions = savedInstanceState.GetIntArray(KeyCheatedArray).ToList();
                 score = savedInstanceState.GetInt(KeyScore);
+                currentIndex = savedInstanceState.GetInt(KeyIndex);
+                _isCheater = savedInstanceState.GetBoolean(KeyCheater);
             }
 
             InitFields();
@@ -68,15 +73,17 @@ namespace XamarinGeoQuiz.Droid
         {
             base.OnSaveInstanceState(outState);
             Log.Info(Tag, "onSavedInstanceState");
-            outState.PutInt(KeyIndex, currentIndex);
             outState.PutIntArray(KeyArray, answeredQuestions.ToArray());
+            outState.PutIntArray(KeyCheatedArray, cheatedQuestions.ToArray());
             outState.PutInt(KeyScore, score);
+            outState.PutInt(KeyIndex, currentIndex);
+            outState.PutBoolean(KeyCheater, _isCheater);
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-
+            Log.Info(Tag, "onActivityResult");
             if (resultCode != Result.Ok)
             {
                 return;
@@ -90,6 +97,10 @@ namespace XamarinGeoQuiz.Droid
                 } 
 
                 _isCheater = CheatActivity.WasAnswerShown(data);
+                if (_isCheater)
+                {
+                    cheatedQuestions.Add(currentIndex);
+                }
             }
         }
 
@@ -135,6 +146,7 @@ namespace XamarinGeoQuiz.Droid
 
         private void CheatButtonClicked(object sender, EventArgs e)
         {
+            Log.Info(Tag, "CheatActivity started");
             var answerIsTrue = questionBank[currentIndex].AnswerTrue;
             Intent intent = CheatActivity.NewIntent(this, answerIsTrue);
             StartActivityForResult(intent, RequestCodeCheat);
@@ -143,14 +155,12 @@ namespace XamarinGeoQuiz.Droid
         private void GoToNextQuestion(object sender, EventArgs e)
         {
             currentIndex = (currentIndex + 1) % questionBank.Length;
-            _isCheater = false;
+            CheckIfCheated();
             UpdateQuestion();
         }
 
         private void GoToPrevQuestion(object sender, EventArgs e)
         {
-            _isCheater = false;
-
             if (currentIndex == 0)
             {
                 currentIndex = questionBank.Length - 1;
@@ -160,6 +170,7 @@ namespace XamarinGeoQuiz.Droid
                 currentIndex = (currentIndex - 1) % questionBank.Length;
             }
 
+            CheckIfCheated();
             UpdateQuestion();
         }
 
@@ -210,6 +221,18 @@ namespace XamarinGeoQuiz.Droid
             {
                 string finalScore = string.Format(GetString(Resource.String.final_score_msg), score * 100 / questionBank.Length);
                 Toast.MakeText(this, finalScore, ToastLength.Short).Show();
+            }
+        }
+
+        private void CheckIfCheated()
+        {
+            if (cheatedQuestions.Contains(currentIndex))
+            {
+                _isCheater = true;
+            }
+            else
+            {
+                _isCheater = false;
             }
         }
 
