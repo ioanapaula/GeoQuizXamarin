@@ -42,8 +42,7 @@ namespace XamarinGeoQuiz.Droid.Activities
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Cheat);
-
-            var cheatIntent = Intent;
+            
             _answerIsTrue = Intent.GetBooleanExtra(ExtraAnswerIsTrue, false);
 
             _showAnswerButton = FindViewById<Button>(Resource.Id.show_answer_button);
@@ -51,7 +50,6 @@ namespace XamarinGeoQuiz.Droid.Activities
 
             if (savedInstanceState != null)
             {
-                _answerIsTrue = savedInstanceState.GetBoolean(KeyAnswer);
                 _isAnswerShown = savedInstanceState.GetBoolean(KeyCheater);
             }
 
@@ -68,7 +66,6 @@ namespace XamarinGeoQuiz.Droid.Activities
         {
             base.OnSaveInstanceState(outState);
 
-            outState.PutBoolean(KeyAnswer, _answerIsTrue);
             outState.PutBoolean(KeyCheater, _isAnswerShown);
         }
 

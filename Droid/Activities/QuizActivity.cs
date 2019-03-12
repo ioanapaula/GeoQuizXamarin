@@ -30,7 +30,6 @@ namespace XamarinGeoQuiz.Droid
         private TextView _questionTextView;
         private ImageButton _nextButton;
         private ImageButton _prevButton;
-        private bool _isCheater;
         private int score = 0;
 
         private List<int> answeredQuestions = new List<int>();
@@ -61,7 +60,6 @@ namespace XamarinGeoQuiz.Droid
                 cheatedQuestions = savedInstanceState.GetIntArray(KeyCheatedArray).ToList();
                 score = savedInstanceState.GetInt(KeyScore);
                 currentIndex = savedInstanceState.GetInt(KeyIndex);
-                _isCheater = savedInstanceState.GetBoolean(KeyCheater);
             }
 
             InitFields();
@@ -77,7 +75,6 @@ namespace XamarinGeoQuiz.Droid
             outState.PutIntArray(KeyCheatedArray, cheatedQuestions.ToArray());
             outState.PutInt(KeyScore, score);
             outState.PutInt(KeyIndex, currentIndex);
-            outState.PutBoolean(KeyCheater, _isCheater);
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -96,8 +93,7 @@ namespace XamarinGeoQuiz.Droid
                     return;
                 } 
 
-                _isCheater = CheatActivity.WasAnswerShown(data);
-                if (_isCheater)
+                if (CheatActivity.WasAnswerShown(data))
                 {
                     cheatedQuestions.Add(currentIndex);
                 }
@@ -155,7 +151,6 @@ namespace XamarinGeoQuiz.Droid
         private void GoToNextQuestion(object sender, EventArgs e)
         {
             currentIndex = (currentIndex + 1) % questionBank.Length;
-            CheckIfCheated();
             UpdateQuestion();
         }
 
@@ -170,7 +165,6 @@ namespace XamarinGeoQuiz.Droid
                 currentIndex = (currentIndex - 1) % questionBank.Length;
             }
 
-            CheckIfCheated();
             UpdateQuestion();
         }
 
@@ -194,7 +188,7 @@ namespace XamarinGeoQuiz.Droid
             bool answerIsTrue = questionBank[currentIndex].AnswerTrue;
             int messageResId = 0;
 
-            if (_isCheater)
+            if (cheatedQuestions.Contains(currentIndex))
             {
                 messageResId = Resource.String.judgement_toast;
             }
@@ -221,18 +215,6 @@ namespace XamarinGeoQuiz.Droid
             {
                 string finalScore = string.Format(GetString(Resource.String.final_score_msg), score * 100 / questionBank.Length);
                 Toast.MakeText(this, finalScore, ToastLength.Short).Show();
-            }
-        }
-
-        private void CheckIfCheated()
-        {
-            if (cheatedQuestions.Contains(currentIndex))
-            {
-                _isCheater = true;
-            }
-            else
-            {
-                _isCheater = false;
             }
         }
 
