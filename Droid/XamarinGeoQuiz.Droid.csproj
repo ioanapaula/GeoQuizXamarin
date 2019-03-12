@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Data\Question.cs" />
     <Compile Include="Activities\QuizActivity.cs" />
+    <Compile Include="Activities\CheatActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -175,6 +176,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\arrow_left.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\arrow_right.png" />
     <AndroidResource Include="Resources\layout-land\Main.axml" />
+    <AndroidResource Include="Resources\layout\Cheat.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Activities\" />
