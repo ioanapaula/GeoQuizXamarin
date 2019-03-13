@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Android.Animation;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 
 namespace XamarinGeoQuiz.Droid.Activities
@@ -24,6 +25,7 @@ namespace XamarinGeoQuiz.Droid.Activities
         private bool _isAnswerShown;
         private Button _showAnswerButton;
         private TextView _answerTextView;
+        private TextView _versionTextView;
 
         public static Intent NewIntent(Context packageContext, bool answerIsTrue)
         {
@@ -42,11 +44,16 @@ namespace XamarinGeoQuiz.Droid.Activities
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Cheat);
-            
+
             _answerIsTrue = Intent.GetBooleanExtra(ExtraAnswerIsTrue, false);
 
             _showAnswerButton = FindViewById<Button>(Resource.Id.show_answer_button);
             _answerTextView = FindViewById<TextView>(Resource.Id.answer_text_view);
+            _versionTextView = FindViewById<TextView>(Resource.Id.version_text_view);
+
+            _showAnswerButton.Click += AnswerButtonClicked;
+
+            _versionTextView.Text = string.Format(GetString(Resource.String.version_name), Build.VERSION.Sdk);
 
             if (savedInstanceState != null)
             {
@@ -58,8 +65,6 @@ namespace XamarinGeoQuiz.Droid.Activities
                 DisplayAnswer(_answerIsTrue);
                 SetAnswerShownResult(_isAnswerShown);
             }
-
-            _showAnswerButton.Click += AnswerButtonClicked;
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -74,6 +79,13 @@ namespace XamarinGeoQuiz.Droid.Activities
             _isAnswerShown = true;
             DisplayAnswer(_answerIsTrue);
             SetAnswerShownResult(_isAnswerShown);
+
+            RemoveAnswerButton();
+        }
+
+        private void AnimationEnd(object sender, EventArgs e)
+        {
+            _showAnswerButton.Visibility = Android.Views.ViewStates.Invisible;
         }
 
         private void SetAnswerShownResult(bool isAnswerShown)
@@ -92,6 +104,23 @@ namespace XamarinGeoQuiz.Droid.Activities
             else
             {
                 _answerTextView.SetText(Resource.String.false_button);
+            }
+        }
+
+        private void RemoveAnswerButton()
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                var cx = _showAnswerButton.Width / 2;
+                var cy = _showAnswerButton.Height / 2;
+                var radius = _showAnswerButton.Width;
+                var anim = ViewAnimationUtils.CreateCircularReveal(_showAnswerButton, cx, cy, radius, 0);
+                anim.AnimationEnd += AnimationEnd;
+                anim.Start();
+            }
+            else
+            {
+                _showAnswerButton.Visibility = Android.Views.ViewStates.Invisible;
             }
         }
     }

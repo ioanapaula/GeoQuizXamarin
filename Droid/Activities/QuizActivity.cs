@@ -22,15 +22,18 @@ namespace XamarinGeoQuiz.Droid
         private const string KeyScore = "score";
         private const string KeyCheater = "cheater";
         private const string KeyCheatedArray = "cheated";
+        private const string KeyCheats = "cheats";
         private const int RequestCodeCheat = 0;
 
         private Button _trueButton;
         private Button _falseButton;
         private Button _cheatButton;
         private TextView _questionTextView;
+        private TextView _cheatsTextView;
         private ImageButton _nextButton;
         private ImageButton _prevButton;
         private int score = 0;
+        private int availableCheats = 3;
 
         private List<int> answeredQuestions = new List<int>();
         private List<int> cheatedQuestions = new List<int>();
@@ -60,11 +63,13 @@ namespace XamarinGeoQuiz.Droid
                 cheatedQuestions = savedInstanceState.GetIntArray(KeyCheatedArray).ToList();
                 score = savedInstanceState.GetInt(KeyScore);
                 currentIndex = savedInstanceState.GetInt(KeyIndex);
+                availableCheats = savedInstanceState.GetInt(KeyCheats);
             }
 
             InitFields();
             SetListeners();
             UpdateQuestion();
+            _cheatsTextView.Text = string.Format(GetString(Resource.String.remaining_cheats), availableCheats);
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -75,6 +80,7 @@ namespace XamarinGeoQuiz.Droid
             outState.PutIntArray(KeyCheatedArray, cheatedQuestions.ToArray());
             outState.PutInt(KeyScore, score);
             outState.PutInt(KeyIndex, currentIndex);
+            outState.PutInt(KeyCheats, availableCheats);
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -91,11 +97,19 @@ namespace XamarinGeoQuiz.Droid
                 if (data == null)
                 {
                     return;
-                } 
+                }
 
                 if (CheatActivity.WasAnswerShown(data))
                 {
                     cheatedQuestions.Add(currentIndex);
+                    availableCheats--;
+                    _cheatsTextView.Text = string.Format(GetString(Resource.String.remaining_cheats), availableCheats);
+
+                    if (availableCheats == 0)
+                    {
+                        _cheatButton.Visibility = Android.Views.ViewStates.Invisible;
+                        _cheatsTextView.SetText(Resource.String.no_cheats_available);
+                    }
                 }
             }
         }
@@ -238,6 +252,7 @@ namespace XamarinGeoQuiz.Droid
             _falseButton = FindViewById<Button>(Resource.Id.false_button);
             _cheatButton = FindViewById<Button>(Resource.Id.cheat_button);
             _questionTextView = FindViewById<TextView>(Resource.Id.question_text_view);
+            _cheatsTextView = FindViewById<TextView>(Resource.Id.cheatings_text_view);
             _nextButton = FindViewById<ImageButton>(Resource.Id.next_button);
             _prevButton = FindViewById<ImageButton>(Resource.Id.prev_button);
         }
