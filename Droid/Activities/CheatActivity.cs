@@ -80,19 +80,7 @@ namespace XamarinGeoQuiz.Droid.Activities
             DisplayAnswer(_answerIsTrue);
             SetAnswerShownResult(_isAnswerShown);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
-            {
-                var cx = _showAnswerButton.Width / 2;
-                var cy = _showAnswerButton.Height / 2;
-                var radius = _showAnswerButton.Width;
-                var anim = ViewAnimationUtils.CreateCircularReveal(_showAnswerButton, cx, cy, radius, 0);
-                anim.AnimationEnd += AnimationEnd;
-                anim.Start();
-            }
-            else
-            {
-                _showAnswerButton.Visibility = Android.Views.ViewStates.Invisible;
-            }
+            RemoveAnswerButton();
         }
 
         private void AnimationEnd(object sender, EventArgs e)
@@ -116,6 +104,23 @@ namespace XamarinGeoQuiz.Droid.Activities
             else
             {
                 _answerTextView.SetText(Resource.String.false_button);
+            }
+        }
+
+        private void RemoveAnswerButton()
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                var cx = _showAnswerButton.Width / 2;
+                var cy = _showAnswerButton.Height / 2;
+                var radius = _showAnswerButton.Width;
+                var anim = ViewAnimationUtils.CreateCircularReveal(_showAnswerButton, cx, cy, radius, 0);
+                anim.AnimationEnd += AnimationEnd;
+                anim.Start();
+            }
+            else
+            {
+                _showAnswerButton.Visibility = Android.Views.ViewStates.Invisible;
             }
         }
     }

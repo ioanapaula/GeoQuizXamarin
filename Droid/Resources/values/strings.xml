@@ -19,4 +19,6 @@
     <string name="cheat_button">Cheat!</string>
     <string name="judgement_toast">Cheating is wrong.</string>
     <string name="version_name"> API Level {0}</string>
+    <string name="remaining_cheats">You may cheat {0} more times.</string>
+    <string name="no_cheats_available">No cheats left!</string>        
 </resources>
