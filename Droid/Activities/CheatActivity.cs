@@ -25,6 +25,7 @@ namespace XamarinGeoQuiz.Droid.Activities
         private bool _isAnswerShown;
         private Button _showAnswerButton;
         private TextView _answerTextView;
+        private TextView _versionTextView;
 
         public static Intent NewIntent(Context packageContext, bool answerIsTrue)
         {
@@ -48,6 +49,11 @@ namespace XamarinGeoQuiz.Droid.Activities
 
             _showAnswerButton = FindViewById<Button>(Resource.Id.show_answer_button);
             _answerTextView = FindViewById<TextView>(Resource.Id.answer_text_view);
+            _versionTextView = FindViewById<TextView>(Resource.Id.version_text_view);
+
+            _showAnswerButton.Click += AnswerButtonClicked;
+
+            _versionTextView.Text = string.Format(GetString(Resource.String.version_name), Build.VERSION.Sdk);
 
             if (savedInstanceState != null)
             {
@@ -59,8 +65,6 @@ namespace XamarinGeoQuiz.Droid.Activities
                 DisplayAnswer(_answerIsTrue);
                 SetAnswerShownResult(_isAnswerShown);
             }
-
-            _showAnswerButton.Click += AnswerButtonClicked;
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
